@@ -46,8 +46,6 @@ namespace Musoeun
 		
 	}
 
-
-
 	class MGameLoop
 	{
 	public:

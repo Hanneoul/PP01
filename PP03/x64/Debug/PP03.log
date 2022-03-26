@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\YUHAN\source\repos\PP01\PP03\main.cpp(34,1): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+  PP03.vcxproj -> C:\Users\YUHAN\source\repos\PP01\x64\Debug\PP03.exe

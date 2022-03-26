@@ -13,3 +13,9 @@ namespace Musoeun
 	};
 }
 
+
+// overload
+// override
+// virtual
+
+//binding -> 
