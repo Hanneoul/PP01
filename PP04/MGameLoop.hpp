@@ -13,7 +13,6 @@ namespace MuSeoun_Engine
 		bool _isGameRunning;	
 		MConsoleRenderer cRenderer;
 		
-	
 	public :
 		MGameLoop() 	{	_isGameRunning = false;		}
 		~MGameLoop() {}
