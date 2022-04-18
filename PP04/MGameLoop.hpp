@@ -34,7 +34,6 @@ namespace MuSeoun_Engine
 				Update();
 				Render();
 				
-
 			}
 			Release();
 		}
@@ -79,6 +78,8 @@ namespace MuSeoun_Engine
 			
 			
 			cRenderer.MoveCursor(10, 20);
+
+
 			renderDuration = chrono::system_clock::now() - startRenderTimePoint;
 			startRenderTimePoint = chrono::system_clock::now();
 			string fps = "FPS : " + to_string(1.0 / renderDuration.count());

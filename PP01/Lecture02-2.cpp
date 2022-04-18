@@ -72,15 +72,15 @@ public:
 //운전자 함수
 void main()
 {
-	int carNum = 2;
+	int carNum = 1;
 	
 
 	Car** c;
 	c = new Car*[carNum];
 	c[0] = new Spark();
-	c[1] = new Escalade();	
+	//c[1] = new Escalade();	
 
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < carNum; i++)
 	{
 		c[i]->OpenWindow();
 		c[i]->ChangeGear();
