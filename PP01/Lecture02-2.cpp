@@ -9,7 +9,7 @@ public:
 	{
 		cout << "Car를 생성합니다\n";
 	}
-	~Car()
+	virtual ~Car()
 	{
 		cout << "Car가 소멸됩니다\n";
 	}
