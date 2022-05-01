@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{e553b567-4bd2-4132-a9b6-a5d64f7f2961}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,8 +29,20 @@
     <ClInclude Include="MGameLoop.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="헤더.h">
+    <ClInclude Include="MGameObject.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MComponent.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="temp.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

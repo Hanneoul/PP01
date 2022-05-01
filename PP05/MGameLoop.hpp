@@ -1,7 +1,18 @@
 #pragma once
 #include <chrono>
 #include <thread>
+#include <glm/glm.hpp>
+
+#include <GL/glew.h>		
+#include <GLFW/glfw3.h> 
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "MConsolUtil.hpp"
+#include "MGameObject.hpp"
+#include "MComponent.hpp"
+
 
 using namespace std;
 
