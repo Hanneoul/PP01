@@ -1,0 +1,4 @@
+﻿  main.cpp
+main.obj : error LNK2019: __imp_glClearmain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: __imp_glClearColormain 함수에서 참조되는 확인할 수 없는 외부 기호
+C:\Users\YUHAN\source\repos\PP01\x64\Debug\PP07-OpenGL.exe : fatal error LNK1120: 2개의 확인할 수 없는 외부 참조입니다.
