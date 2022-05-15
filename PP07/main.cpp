@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#pragma comment(lib, "opengl32.lib")
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -34,8 +36,21 @@ int main(void)
         ratio = width / (float)height;
                 
 
-        //glClearColor(0, 0, 1, 1);
-        //glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0, 0, 1, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
+        glBegin(GL_TRIANGLES);
+        glVertex2f(0.0f, 0.5f);
+        glColor3f(0.4f, 0.72f, 0.1f);
+
+        glVertex2f(-0.5f, -0.5f);
+        glColor3f(0.4f, 0.0f, 0.0f);
+
+        glVertex2f(0.5f, -0.5f);
+        glColor3f(0.0f, 0.0f, 0.0f);
+
+        glEnd();
+        glFlush();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
