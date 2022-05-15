@@ -39,8 +39,29 @@ int main(void)
         ratio = width / (float)height;
 
 
-        glClearColor(0, 0, 1, 1);
+        glClearColor(0.3f, 0.3f, 0.3f, 1);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+        glBegin(GL_TRIANGLES);
+        glColor4f(1.0f, 0.0f, 0.0f,0.3f);
+        glVertex3f(0.0f,1.0f,0.0f);
+        glColor4f(1.0f, 0.0f, 0.0f, 0.3f);
+        glVertex3f(1.0f, -1.0f, 0.0f);
+        glColor4f(1.0f, 0.0f, 0.0f, 0.3f);
+        glVertex3f(-1.0f, -1.0f, 0.0f);
+        glEnd();
+
+        glBegin(GL_TRIANGLES);
+        glColor4f(1.0f, 1.0f, 0.0f, 0.3f);
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glColor4f(1.0f, 1.0f, 0.0f, 0.3f);
+        glVertex3f(1.0f, -1.0f, 0.0f);
+        glColor4f(1.0f, 0.0f, 1.0f, 0.3f);
+        glVertex3f(-1.0f, -1.0f, 0.0f);
+        glEnd();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
