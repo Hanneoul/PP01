@@ -3,15 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#pragma comment(lib,"opengl32")
-
-
-glm::vec2 pos[3] =
-{
-    glm::vec2(-0.5f, -0.5f),
-    glm::vec2(0.5f, -0.5f),
-    glm::vec2(0.0f, 0.5f),
-};
+#pragma comment(lib, "OpenGL32")
 
 
 static void error_callback(int error, const char* description)
