@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="PP08_OpenGL.cpp">
+    <ClCompile Include="PP09_GLM.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
