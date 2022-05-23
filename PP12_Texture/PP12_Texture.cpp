@@ -17,7 +17,7 @@ typedef struct tagBITMAPHEADER {
     RGBQUAD hRGB[256];
 }BITMAPHEADER;
 
-GLubyte* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* filename)
+BYTE* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* filename)
 {
     FILE* fp = fopen(filename, "rb");	//파일을 이진읽기모드로 열기
     if (fp == NULL)
@@ -37,17 +37,9 @@ GLubyte* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* fi
         BYTE* image = (BYTE*)malloc(sizeof(BYTE) * imgSizeTemp);	//이미지크기만큼 메모리할당
         fread(image, sizeof(BYTE), imgSizeTemp, fp);//이미지 크기만큼 파일에서 읽어오기
         fclose(fp);
-        
-        GLubyte* returnImage = (BYTE*)malloc(sizeof(BYTE) * imgSizeTemp * 4);	//이미지크기만큼 메모리할당
+             
 
-        int i = 0;
-        for (i = 0; i < imgSizeTemp; i++) {
-            returnImage[4 * i] = (GLubyte)image[i];
-            returnImage[4 * i+1] = (GLubyte)image[i];
-            returnImage[4 * i+2] = (GLubyte)image[i];
-            returnImage[4 * i+3] = (GLubyte)255;            
-        }
-        return returnImage;
+        return image;
     }
 }
 
@@ -80,9 +72,9 @@ void init(void)
         GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
         GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512,
-        512, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-        image);
+    
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RED, GL_BYTE, image);
 }
 
 static void error_callback(int error, const char* description)
