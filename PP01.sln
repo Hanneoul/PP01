@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31005.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP01", "PP01\PP01.vcxproj", "{1E72C7B5-C19C-44AB-AE58-639EF71534D7}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP08_OpenGL", "PP08_OpenGLnGLM\PP08_OpenGLnGLM.vcxproj", "{4C252FA3-B921-47C2-BFB5-72DFEEAF1824}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP11", "PP11\PP11.vcxproj", "{93D620C0-BF47-4ADE-8982-C15DE8AF09B7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP12_Texture", "PP12_Texture\PP12_Texture.vcxproj", "{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,14 @@ Global
 		{93D620C0-BF47-4ADE-8982-C15DE8AF09B7}.Release|x64.Build.0 = Release|x64
 		{93D620C0-BF47-4ADE-8982-C15DE8AF09B7}.Release|x86.ActiveCfg = Release|Win32
 		{93D620C0-BF47-4ADE-8982-C15DE8AF09B7}.Release|x86.Build.0 = Release|Win32
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Debug|x64.ActiveCfg = Debug|x64
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Debug|x64.Build.0 = Debug|x64
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Debug|x86.ActiveCfg = Debug|Win32
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Debug|x86.Build.0 = Debug|Win32
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Release|x64.ActiveCfg = Release|x64
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Release|x64.Build.0 = Release|x64
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Release|x86.ActiveCfg = Release|Win32
+		{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
