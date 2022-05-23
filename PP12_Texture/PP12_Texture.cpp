@@ -10,6 +10,8 @@
 
 #pragma comment(lib, "OpenGL32")
 
+static GLuint texName;
+
 //비트맵 헤더를 한 묶음으로 다시 구조체로 묶었어요. 함수처리를 편하게 하려구요.
 typedef struct tagBITMAPHEADER {
     BITMAPFILEHEADER bf;
@@ -43,11 +45,8 @@ BYTE* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* filen
     }
 }
 
-/*  Create checkerboard texture  */
-#define checkImageWidth 64
-#define checkImageHeight 64
-static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
-static GLuint texName;
+
+
 
 void init(void)
 {
