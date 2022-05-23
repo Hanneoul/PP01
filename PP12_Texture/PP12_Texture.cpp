@@ -52,15 +52,12 @@ static GLuint texName;
 void init(void)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
-    //glShadeModel(GL_FLAT);  //GL_SMOOTH
-    //glEnable(GL_DEPTH_TEST);
-
+    
     BITMAPHEADER originalHeader;	//비트맵의 헤더부분을 파일에서 읽어 저장할 구조체
     int imgSize;			//이미지의 크기를 저장할 변수
     BYTE* image = LoadBitmapFile(&originalHeader, &imgSize, "lena_gray.bmp"); //비트맵파일을 읽어 화소정보를 저장
     if (image == NULL) return;        //파일 읽기에 실패하면 프로그램 종료
 
-    //makeCheckImage();
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     glGenTextures(1, &texName);
@@ -71,8 +68,7 @@ void init(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
         GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-        GL_NEAREST);
-    
+        GL_NEAREST);    
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RED, GL_BYTE, image);
 }
