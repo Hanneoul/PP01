@@ -10,53 +10,6 @@
 
 #pragma comment(lib, "OpenGL32")
 
-
-/*  Create checkerboard texture  */
-#define checkImageWidth 64
-#define checkImageHeight 64
-static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
-
-static GLuint texName;
-
-
-void makeCheckImage(void)
-{
-    int i, j, c;
-
-    for (i = 0; i < checkImageHeight; i++) {
-        for (j = 0; j < checkImageWidth; j++) {
-            c = ((((i & 0x8) == 0) ^ ((j & 0x8)) == 0)) * 255;
-            checkImage[i][j][0] = (GLubyte)c;
-            checkImage[i][j][1] = (GLubyte)c;
-            checkImage[i][j][2] = (GLubyte)c;
-            checkImage[i][j][3] = (GLubyte)255;
-        }
-    }
-}
-
-void init(void)
-{
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    //glShadeModel(GL_FLAT);  //GL_SMOOTH
-    //glEnable(GL_DEPTH_TEST);
-
-    makeCheckImage();
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-    glGenTextures(1, &texName);
-    glBindTexture(GL_TEXTURE_2D, texName);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-        GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-        GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth,
-        checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-        checkImage);
-}
-
 //비트맵 헤더를 한 묶음으로 다시 구조체로 묶었어요. 함수처리를 편하게 하려구요.
 typedef struct tagBITMAPHEADER {
     BITMAPFILEHEADER bf;
@@ -64,7 +17,7 @@ typedef struct tagBITMAPHEADER {
     RGBQUAD hRGB[256];
 }BITMAPHEADER;
 
-BYTE* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* filename)
+GLubyte* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* filename)
 {
     FILE* fp = fopen(filename, "rb");	//파일을 이진읽기모드로 열기
     if (fp == NULL)
@@ -78,89 +31,59 @@ BYTE* LoadBitmapFile(BITMAPHEADER* bitmapHeader, int* imgSize, const char* filen
         fread(&bitmapHeader->bi, sizeof(BITMAPINFOHEADER), 1, fp);	//비트맵인포헤더 읽기
         fread(&bitmapHeader->hRGB, sizeof(RGBQUAD), 256, fp);	//색상팔렛트 읽기
 
-        int imgSizeTemp = bitmapHeader->bi.biWidth * bitmapHeader->bi.biHeight;	//이미지 사이즈 계산
+        int imgSizeTemp = bitmapHeader->bi.biWidth * bitmapHeader->bi.biHeight ;	//이미지 사이즈 계산
         *imgSize = imgSizeTemp;	// 이미지 사이즈를 상위 변수에 할당
 
         BYTE* image = (BYTE*)malloc(sizeof(BYTE) * imgSizeTemp);	//이미지크기만큼 메모리할당
         fread(image, sizeof(BYTE), imgSizeTemp, fp);//이미지 크기만큼 파일에서 읽어오기
         fclose(fp);
-        return image;
+        
+        GLubyte* returnImage = (BYTE*)malloc(sizeof(BYTE) * imgSizeTemp * 4);	//이미지크기만큼 메모리할당
+
+        int i = 0;
+        for (i = 0; i < imgSizeTemp; i++) {
+            returnImage[4 * i] = (GLubyte)image[i];
+            returnImage[4 * i+1] = (GLubyte)image[i];
+            returnImage[4 * i+2] = (GLubyte)image[i];
+            returnImage[4 * i+3] = (GLubyte)255;            
+        }
+        return returnImage;
     }
 }
 
-void ChangeRGB(RGBQUAD* originalhRGB, RGBQUAD* outputhRGB, int maniplRed, int maniplBlue, int maniplGreen)
+/*  Create checkerboard texture  */
+#define checkImageWidth 64
+#define checkImageHeight 64
+static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
+static GLuint texName;
+
+void init(void)
 {
-    //클리핑 처리후 outputhRGB에 그 값을 할당
-    for (int i = 0; i < 256; i++)
-    {
-        if (originalhRGB[i].rgbRed + maniplRed > 255)
-            outputhRGB[i].rgbRed = 255;
-        else if (originalhRGB[i].rgbRed + maniplRed < 0)
-            outputhRGB[i].rgbRed = 0;
-        else
-            outputhRGB[i].rgbRed = originalhRGB[i].rgbRed + maniplRed;
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    //glShadeModel(GL_FLAT);  //GL_SMOOTH
+    //glEnable(GL_DEPTH_TEST);
 
-        if (originalhRGB[i].rgbBlue + maniplBlue > 255)
-            outputhRGB[i].rgbBlue = 255;
-        else if (originalhRGB[i].rgbBlue + maniplBlue < 0)
-            outputhRGB[i].rgbBlue = 0;
-        else
-            outputhRGB[i].rgbBlue = originalhRGB[i].rgbBlue + maniplBlue;
-
-        if (originalhRGB[i].rgbGreen + maniplGreen > 255)
-            outputhRGB[i].rgbGreen = 255;
-        else if (originalhRGB[i].rgbGreen + maniplGreen < 0)
-            outputhRGB[i].rgbGreen = 0;
-        else
-            outputhRGB[i].rgbGreen = originalhRGB[i].rgbGreen + maniplGreen;
-    }
-
-}
-
-
-void WriteBitmapFile(BITMAPHEADER outputHeader, BYTE* output, int imgSize, const char* filename)
-{
-    FILE* fp = fopen(filename, "wb");//파일을 이진쓰기모드로 열기
-
-    fwrite(&outputHeader.bf, sizeof(BITMAPFILEHEADER), 1, fp);//비트맵파일헤더쓰기
-    fwrite(&outputHeader.bi, sizeof(BITMAPINFOHEADER), 1, fp);//비트맵인포헤더쓰기
-    fwrite(&outputHeader.hRGB, sizeof(RGBQUAD), 256, fp);//색상팔렛트 쓰기
-    fwrite(output, sizeof(BYTE), imgSize, fp);//이미지인덱스정보 쓰기
-    fclose(fp);
-}
-
-
-
-int LoadBitmap()
-{
     BITMAPHEADER originalHeader;	//비트맵의 헤더부분을 파일에서 읽어 저장할 구조체
-    BITMAPHEADER outputHeader;	//변형을 가한 헤더부분을 저장할 구조체
     int imgSize;			//이미지의 크기를 저장할 변수
     BYTE* image = LoadBitmapFile(&originalHeader, &imgSize, "lena_gray.bmp"); //비트맵파일을 읽어 화소정보를 저장
-    if (image == NULL) return 0;        //파일 읽기에 실패하면 프로그램 종료
-    BYTE* output = (BYTE*)malloc(sizeof(BYTE) * imgSize);	//결과값을 저장할 포인터 선언 및 메모리 할당
-    outputHeader = originalHeader;				//헤더정보를 출력헤더정보에 할당
+    if (image == NULL) return;        //파일 읽기에 실패하면 프로그램 종료
 
-    /*요기에다가 영상을 처리할 코드가 들어가면 됩니다.*/
-       //여기부터 밝기를 50만큼 증가시킨 파일 생성
-    ChangeRGB(originalHeader.hRGB, outputHeader.hRGB, 50, 50, 50);
-    WriteBitmapFile(outputHeader, output, imgSize, "output1.bmp");
+    //makeCheckImage();
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    //화소정보 복사
-    for (int i = 0; i < imgSize; i++)
-    {
-        output[i] = image[i];
-    }
+    glGenTextures(1, &texName);
+    glBindTexture(GL_TEXTURE_2D, texName);
 
-    free(image);
-    free(output);
-
-    return 0;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+        GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+        GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512,
+        512, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+        image);
 }
-
-
-Player* p = new Player(0.1f, 0.9f, 0.9f, MuSeoun::vec3(1.0f, 0.0f, 0.0f));
-Player* e = new Player(0.1f, 0.0f, 0.0f, MuSeoun::vec3(0.0f, 0.0f, 1.0f));
 
 static void error_callback(int error, const char* description)
 {
@@ -169,29 +92,8 @@ static void error_callback(int error, const char* description)
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-
-    if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-        p->MoveUp(0.01f);
-    if (key == GLFW_KEY_UP && action == GLFW_RELEASE)
-        p->MoveUp(0.0f);
-    if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-        p->MoveUp(-0.01f);
-    if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE)
-        p->MoveUp(0.0f);
-    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-        p->MoveRight(0.01f);
-    if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
-        p->MoveRight(0.0f);
-    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-        p->MoveRight(-0.01f);
-    if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
-        p->MoveRight(0.0f);
-
-
-
+        glfwSetWindowShouldClose(window, GL_TRUE);  
 }
-
 
 int main(void)
 {
@@ -211,89 +113,29 @@ int main(void)
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+     
     init();
 
     while (!glfwWindowShouldClose(window))
     {
-        float ratio;
-        int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float)height;
-
-        glClearColor(.0f, 0.0f, 0.0f, 0.1f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (p->quad[2].x < e->quad[i].x && e->quad[i].x < p->quad[1].x)
-            {
-                if (p->quad[2].y < e->quad[i].y && e->quad[i].y < p->quad[1].y)
-                {
-                    printf("충돌!!\n");
-                }
-            }
-
-        }
-
-
-        //p->Render();
-        //e->Render();
-
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_TEXTURE_2D);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
         glBindTexture(GL_TEXTURE_2D, texName);
-        glBegin(GL_QUADS);
-        glTexCoord2f(0.0, 0.0); glVertex3f(-2.0, -1.0, 0.0);
-        glTexCoord2f(0.0, 1.0); glVertex3f(-2.0, 1.0, 0.0);
-        glTexCoord2f(1.0, 1.0); glVertex3f(0.0, 1.0, 0.0);
-        glTexCoord2f(1.0, 0.0); glVertex3f(0.0, -1.0, 0.0);
-
-        glTexCoord2f(0.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
-        glTexCoord2f(0.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
-        glTexCoord2f(1.0, 1.0); glVertex3f(2.41421, 1.0, -1.41421);
-        glTexCoord2f(1.0, 0.0); glVertex3f(2.41421, -1.0, -1.41421);
+        glBegin(GL_TRIANGLES);
+        glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, -1.0, 0.0);
+        glTexCoord2f(1.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
+        glTexCoord2f(0.5, 1.0); glVertex3f(0.0, 1.0, 0.0);
+        
         glEnd();
         glFlush();
         glDisable(GL_TEXTURE_2D);
 
-
-        /*
-        glBegin(GL_TRIANGLES);
-        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        glVertex3f(0.0f, 1.0f, 0.0f);
-        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        glVertex3f(1.0f, -1.0f, 0.0f);
-        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        glVertex3f(-1.0f, -1.0f, 0.0f);
-        glEnd();
-
-        glBegin(GL_TRIANGLES);
-        glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-        glVertex2f(0.0f, 1.0f);
-
-        glVertex2f(1.0f, -1.0f);
-
-        glVertex2f(-1.0f, -1.0f);
-        glEnd();
-
-        glBegin(GL_TRIANGLES);
-        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        glVertex2f(0.0f, 1.0f);
-
-        glVertex2f(1.0f, -1.0f);
-
-        glVertex2f(-1.0f, -1.0f);
-        glEnd();
-        */
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
     glfwDestroyWindow(window);
     glfwTerminate();
-    delete(p);
-    delete(e);
+
     exit(EXIT_SUCCESS);
 }
