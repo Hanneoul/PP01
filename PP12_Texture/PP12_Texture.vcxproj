@@ -142,10 +142,6 @@
     <ClCompile Include="PP12_Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MMath.hpp" />
-    <ClInclude Include="Player.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
