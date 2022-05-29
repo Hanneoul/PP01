@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31005.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP01", "PP01\PP01.vcxproj", "{1E72C7B5-C19C-44AB-AE58-639EF71534D7}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP12_Texture", "PP12_Texture\PP12_Texture.vcxproj", "{BA2D15C4-C77A-47C4-A5AB-AEFC8303D3F1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP12_Bitmap", "PP12_Bitmap\PP12_Bitmap.vcxproj", "{AC4A8972-CB3E-447D-B949-AEEB15964560}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PP13", "PP13\PP13.vcxproj", "{5AA1295E-6E8B-459E-A312-BBE88B10496F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,14 @@ Global
 		{AC4A8972-CB3E-447D-B949-AEEB15964560}.Release|x64.Build.0 = Release|x64
 		{AC4A8972-CB3E-447D-B949-AEEB15964560}.Release|x86.ActiveCfg = Release|Win32
 		{AC4A8972-CB3E-447D-B949-AEEB15964560}.Release|x86.Build.0 = Release|Win32
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Debug|x64.ActiveCfg = Debug|x64
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Debug|x64.Build.0 = Debug|x64
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Debug|x86.ActiveCfg = Debug|Win32
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Debug|x86.Build.0 = Debug|Win32
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Release|x64.ActiveCfg = Release|x64
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Release|x64.Build.0 = Release|x64
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Release|x86.ActiveCfg = Release|Win32
+		{5AA1295E-6E8B-459E-A312-BBE88B10496F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
